@@ -72,10 +72,28 @@ class LogisticRegression(object):
 
 
 	def predict(self,feature_matrix):
+		if self.coef is None:
+			raise Exception('fit model firsitly')
+
 		feature_matrix = np.column_stack((np.ones(feature_matrix.shape[0]),feature_matrix))
 
 		predictions = self.predProbability(feature_matrix)
 		
 		return (predictions > self.pred_cutoff).astype(int)
 
+	def saveModel(self,model_name):
+		if self.coef is None:
+			raise Exception('coef is None, call fit firstly')
 
+		try:
+			pickle.dump(self.coef,file(model_name,'wb'),True)
+		except Exception,e:
+			print 'Save model err. ' + str(e)
+	
+	def loadModel(self,model_name):
+		try:
+			self.coef = pickle.load(file(model_name,'rb'))
+		except Exception,e:
+			print 'Load model fail. err: ' + str(e)
+	
+	

@@ -33,8 +33,13 @@ test_x,test_y = generateData(test_data_cnt)
 lr = LogisticRegression()
 lr.fit(train_x,train_y)
 
+model_name = 'lr.model'
+lr.saveModel(model_name)
 
-pred_res = lr.predict(test_x)
+new_lr = LogisticRegression()
+new_lr.loadModel(model_name)
+
+pred_res = new_lr.predict(test_x)
 
 print pred_res[:10]
 
